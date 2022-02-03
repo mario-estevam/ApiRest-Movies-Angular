@@ -2,6 +2,7 @@ package com.example.api.service;
 
 import com.example.api.domain.Categoria;
 import com.example.api.dto.CategoriaDTO;
+import com.example.api.excpetions.DataIntegrityViolationException;
 import com.example.api.excpetions.ObjectNotFoundException;
 import com.example.api.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,13 @@ public class CategoriaService {
 
     public void delete(Integer id){
         findById(id);
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        }catch (DataIntegrityViolationException exception){
+            throw  new DataIntegrityViolationException("Categoria não pode ser deletado por possuir livros associados");
+        }
+
+
     }
 
 
