@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/filmes")
 public class FilmeController {
@@ -35,7 +37,7 @@ public class FilmeController {
     }
 
     @PostMapping
-    public ResponseEntity<Filme> insert(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat, @RequestBody Filme obj){
+    public ResponseEntity<Filme> insert(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat, @Valid @RequestBody Filme obj){
         Filme newObj = service.insert(id_cat, obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/livros/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -43,13 +45,13 @@ public class FilmeController {
 
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<FilmeDTO> update(@PathVariable Integer id, @RequestBody Filme filme){
+    public ResponseEntity<FilmeDTO> update(@PathVariable Integer id, @Valid @RequestBody Filme filme){
         Filme obj = service.update(id, filme);
         return ResponseEntity.ok().body(new FilmeDTO(obj));
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<FilmeDTO> updatePatch(@PathVariable Integer id, @RequestBody Filme filme){
+    public ResponseEntity<FilmeDTO> updatePatch(@PathVariable Integer id, @Valid @RequestBody Filme filme){
         Filme obj = service.update(id, filme);
         return ResponseEntity.ok().body(new FilmeDTO(obj));
     }

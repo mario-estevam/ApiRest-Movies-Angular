@@ -1,15 +1,18 @@
 package com.example.api.dto;
 
 import com.example.api.domain.Filme;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class FilmeDTO  implements Serializable {
     private static final long serialVersionUID= 1L;
 
     Integer id;
+    @NotEmpty(message = "campo titulo requerido")
+    @Length(min = 3, max = 50, message = "o campo titulo deve ter entre 3-50 caracteres")
     String titulo;
-
 
     public FilmeDTO() {
         super();

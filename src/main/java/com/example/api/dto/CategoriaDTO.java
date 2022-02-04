@@ -1,7 +1,9 @@
 package com.example.api.dto;
 
 import com.example.api.domain.Categoria;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class CategoriaDTO implements Serializable {
@@ -9,8 +11,12 @@ public class CategoriaDTO implements Serializable {
     private static final long serialVersionUID= 1L;
 
     private Integer id;
-    private String nome;
-    private String descricao;
+    @NotEmpty(message = "campo nome requerido")
+    @Length(min = 3, max = 100, message = "o campo nome deve ter entre 3-100 caracteres")
+    String nome;
+    @NotEmpty(message = "campo Descrição requerido")
+    @Length(min = 3, max = 200, message = "o campo Descrição deve ter entre 3-200 caracteres")
+    String descricao;
 
     public CategoriaDTO() {
        super();
